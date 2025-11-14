@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Visual Designer & Video Editor – Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 폰트 -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #000000;
+      --text: #ffffff;
+      --muted: #bbbbbb;
+      --accent: #a45bff;
+      --accent-soft: #8b4dff;
+      --nav-bg: #e3e3e3;
+      --nav-active: #00c853;
+      --placeholder: #dadada;
+      --dot: #3a3a3a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Poppins", "Noto Sans KR", sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    .top-nav {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 56px; padding: 0 32px;
+      background: transparent;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+    .logo { font-weight: 700; font-size: 0.9rem; }
+    .nav-links { display: flex; gap: 24px; align-items: center; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; }
+    .nav-item { opacity: 0.75; transition: 0.2s; }
+    .nav-item:hover { opacity: 1; }
+    .active-pill {
+      padding: 6px 16px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 600;}
+    main { padding-top: 56px; }
+
+    .section { padding: 80px 0; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+    .hero {
+      background-image: url("images/hero-bg.jpg");
+      background-size: cover;        /* 화면 꽉 채우기 */
+      background-position: center;   /* 중앙 정렬 */
+      background-repeat: no-repeat;
+    }
+
+    /* 기본 hero 영역 */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* 배경 영상 */
+    .hero-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+
+    /* 필요하면 어둡게 (밝은 영상이면 ON) */
+    .hero-overlay {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1;
+    }
+
+    /* 콘텐츠 레이어 */
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 타이틀 아웃라인 */
+    .hero-title {
+      font-size: clamp(72px, 15vw, 200px);
+      line-height: 1.1; /* 🔥 줄 간격 약간 넓게 */
+      font-weight: 700;
+      white-space: nowrap;
+      width: 100%;
+      max-width: none !important;
+      word-break: keep-all;
+
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(255,255,255,0.9);
+
+      display: block;
+      text-align: left;
+
+      margin-top: -60px; /* 🔥 위로 살짝 올림 → 조절 가능 */
+    }
+    .hero-inner {
+      min-height: 480px; display: flex;
+      align-items: center; position: relative;
+    }
+    
+    .hero-smoke {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 25% 40%, rgba(73,120,255,0.9), transparent 55%),
+        radial-gradient(circle at 55% 45%, rgba(138,85,255,0.9), transparent 55%),
+        radial-gradient(circle at 75% 50%, rgba(255,63,141,0.9), transparent 55%);
+      opacity: 0.8;
+      mix-blend-mode: screen;
+      filter: blur(6px);
+    }
+
+    /* TEXT */
+    .label-kor { margin-bottom: 10px; font-weight: 700; }
+    .section-title-main { font-size: 2rem; font-weight: 700; }
+    .section-title-sub { font-size: 2rem; font-weight: 700; color: var(--accent); margin-bottom: 16px; }
+    .section-text { color: var(--muted); max-width: 540px; }
+
+    /* GRID */
+    .grid { display: grid; gap: 20px; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+    @media (max-width: 900px) {
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .thumb {
+      background: var(--placeholder);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .thumb-vertical { aspect-ratio: 3/4; }
+    .thumb-square { aspect-ratio: 1/1; }
+    .detail-thumbs .thumb-vertical {
+      aspect-ratio: 2 / 5;   /* 또는 9 / 16 처럼 더 길게도 가능 */
+    }
+
+    /* X배너 */
+    .xbanner-wrap {
+      display: flex; justify-content: center;
+      gap: 30px; /* X배너 2개 사이 간격 */ flex-wrap: wrap;
+    }
+    .xbanner {
+      width: 100%;
+      max-width: 220px;      /* 화면 크기 조절하는 부분 (원하면 변경 가능) */
+      aspect-ratio: 1 / 3;   /* 600 x 1800 비율 → 1:3 */
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+      background-color: #e0e0e0; /* 🔥 회색 */
+    }
+
+    /* VIDEO MONITOR */
+    .video-monitor {
+      width: 520px;
+      aspect-ratio: 16/9;
+      background: linear-gradient(120deg,#333,#111 40%,#222 60%,#111);
+      border: 4px solid #666; border-radius: 8px;
+      cursor: pointer; position: relative;
+    }
+
+    /* PHONE */
+    .phone-row { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+    .phone {
+      width: 160px; aspect-ratio: 9/19;
+      background: var(--placeholder);
+      border-radius: 26px; cursor: pointer;
+    }
+    .phone.main {
+      background: #000; border: 2px solid #fff;
+      position: relative;
+    }
+    .phone.main::before {
+      content: ""; position: absolute;
+      width: 26px; height: 4px; border-radius: 999px;
+      background: #fff; top: 10px; left: 50%; transform: translateX(-50%);
+    }
+
+    /* MODAL ======= */
+    .media-modal {
+      position: fixed; inset: 0; display: none;
+      align-items: center; justify-content: center;
+      z-index: 999;
+    }
+    .media-modal.show { display: flex; }
+
+    .media-modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.75);
+    }
+
+    .media-modal-inner {
+      max-width: 90vw; max-height: 90vh;
+      position: relative; z-index: 1;
+    }
+    #modalImage {
+      max-width: 90vw; max-height: 90vh; border-radius: 8px;
+    }
+    .media-video-wrap { width: 90vw; max-width: 900px; aspect-ratio: 16/9; display: none; }
+    .media-video-wrap iframe { width: 100%; height: 100%; border-radius: 8px; }
+
+    .media-modal.image-mode #modalImage { display: block; }
+    .media-modal.image-mode .media-video-wrap { display: none; }
+
+    .media-modal.video-mode #modalImage { display: none; }
+    .media-modal.video-mode .media-video-wrap { display: block; }
+
+    .media-close {
+      position: absolute; top: -40px; right: 0;
+      width: 36px; height: 36px;
+      background: #fff; border-radius: 50%;
+      font-size: 1.5rem; cursor: pointer; border: none;
+    }
+    /* 상세페이지 레이아웃 */
+    .detail-section {
+      padding-top: 40px;
+      padding-bottom: 60px;
+    }
+
+    .detail-layout {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .detail-left {
+      flex: 0 0 260px;
+    }
+
+    .detail-arrows {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .detail-right {
+      flex: 1;
+    }
+
+    .detail-thumbs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      max-width: 720px;
+      margin-left: auto;   /* 오른쪽으로 살짝 붙는 느낌 */
+    }
+
+    .detail-folder-title {
+      text-align: center;
+      margin: 300px 0 80px;
+      font-size: 32px; /* 🔥 상세 타이틀 사이즈랑 맞추기 */
+      color: #a259ff; /* 🔥 상세페이지 타이틀 보라색 */
+      font-weight: 700;
+      background: linear-gradient(90deg, #a259ff, #d96bff);
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .detail-arrow {
+      justify-content: flex-start !important; /* 🔥 상세페이지 버튼만 왼쪽 정렬 */
+      padding-left: 2px;  /* 글씨와 라인 미세 조정 */
+    }
+
+    /* 반응형 */
+    @media (max-width: 900px) {
+      .detail-layout {
+        flex-direction: column;
+      }
+      .detail-left {
+        flex: 1;
+      }
+      .detail-thumbs {
+        max-width: none;
+        margin-left: 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .detail-thumbs {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    html {
+    scroll-behavior: smooth;
+    }
+
+      :root {
+    --bg: #000;
+    }
+
+    .more-icon-wrap {
+    display: flex;
+    justify-content: center;   /* 🔥 두 버튼을 가운데로 */
+    gap: 20px;                 /* 버튼 사이 간격 (원하면 줄이거나 늘려도 됨) */
+    margin-top: 40px;          /* 위쪽 여백 */
+    }
+
+    .more-icon-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #a259ff, #d96bff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    }
+
+    .more-icon-btn:hover {opacity: 0.8;}
+
+/* 흰색 삼각형 (▶ 방향) */
+    .more-icon-btn .triangle {
+    width: 0;
+    height: 0;
+    border-left: 10px solid #fff;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    }
+    .more-icon-btn.left-arrow .triangle {
+    border-left: none;
+    border-right: 10px solid #fff;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    }
+
+    .detail-left .section-text {
+    margin-bottom: 0 !important; 
+    padding-bottom: 8px !important;
+    }
+
+    .detail-left .detail-arrow {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    }
+      </style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<header class="top-nav">
+  <div class="logo">GU</div>
+  <nav class="nav-links">
+    <a href="#about" class="nav-item">ABOUT</a>
+    <a href="#portfolio" class="nav-item">PORTFOLIO</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- 배경 영상 -->
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="videos/hero.mp4" type="video/mp4">
+  </video>
+
+  <!-- 오버레이(필요하면 keep, 아니면 삭제 가능) -->
+  <div class="hero-overlay"></div>
+
+  <!-- 콘텐츠 -->
+  <div class="container">
+    <div class="hero-inner">
+      <h1 class="hero-title">
+        Visual <br/>
+        Designer &amp;<br/>
+        Video Editor
+      </h1>
+    </div>
+  </div>
+
+</section>
+
+  <!-- CONTENT -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="label-kor">내용</div>
+      <p>여기에 자기소개 문구 넣기.</p>
+      <p>작업 스타일, 방향성 등 설명 부분.</p>
+      <p>더미텍스트는 나중에 네가 바꾸면 됨.</p>
+    </div>
+  </section>
+
+  <!-- TITLE SECTION -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title-main">타이틀 타이틀</h2>
+      <h3 class="section-title-sub">타이틀 타이틀</h3>
+      <p class="section-text">여기에 포트폴리오 콘셉트 요약 넣기.</p>
+    </div>
+  </section>
+
+<!-- 상세페이지 섹션 -->
+<section class="section" id="portfolio">
+  <div class="container detail-section">
+    <div class="detail-layout">
+      <!-- 왼쪽 텍스트 영역 -->
+      <div class="detail-left">
+        <h3 class="section-title-sub" style="margin-bottom: 4px;">상세페이지</h3>
+        <p class="section-text">
+          쇼핑몰 상세페이지, 랜딩 페이지 등<br />
+          페이지 디자인 작업들을 모아둔 영역입니다.
+        </p>
+
+        <div class="more-icon-wrap detail-arrow">
+         <a class="more-icon-btn left-arrow">
+           <div class="triangle"></div>
+         </a>
+
+         <a class="more-icon-btn">
+           <div class="triangle"></div>
+         </a>
+        </div>
+      </div>
+
+      <!-- 오른쪽 썸네일 3개 -->
+      <div class="detail-right">
+        <div class="detail-thumbs">
+          <div class="thumb thumb-vertical media-trigger"
+               data-type="image"
+               data-src="images/detail1.jpg"></div>
+
+          <div class="thumb thumb-vertical media-trigger"
+               data-type="image"
+               data-src="images/detail2.jpg"></div>
+
+          <div class="thumb thumb-vertical media-trigger"
+               data-type="image"
+               data-src="images/detail3.jpg"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 아래 폴더명 + 3x2 그리드 (이건 기존 그대로 놔둬도 됨) -->
+    <div class="detail-folder-title">폴더명</div>
+
+    <div class="grid grid-3">
+      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s1.jpg"></div>
+      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s2.jpg"></div>
+      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s3.jpg"></div>
+      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s4.jpg"></div>
+      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s5.jpg"></div>
+      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s6.jpg"></div>
+    </div>
+  </div>
+  <div class="grid grid-3">
+  <!-- 이미지 6개 썸네일 -->
+</div>
+
+<div class="more-icon-wrap">
+  <!-- 왼쪽 화살표 -->
+  <a class="more-icon-btn left-arrow">
+    <div class="triangle"></div>
+  </a>
+
+  <!-- 오른쪽 화살표(기본) -->
+  <a class="more-icon-btn">
+    <div class="triangle"></div>
+  </a>
+</div>
+</section>
+
+  <!-- X배너 -->
+  <section class="section">
+    <div class="container">
+ 
+      <div class="detail-folder-title" style="text-align:center;">X배너</div>
+
+      <div class="xbanner-wrap">
+        <div class="xbanner media-trigger"
+             data-type="image"
+             data-src="images/banner1.jpg"
+             style="background-image:url('images/banner1.jpg');">
+        </div>
+
+        <div class="xbanner media-trigger"
+             data-type="image"
+             data-src="images/banner2.jpg"
+             style="background-image:url('images/banner2.jpg');">
+        </div>
+
+                <div class="xbanner media-trigger"
+             data-type="image"
+             data-src="images/banner2.jpg"
+             style="background-image:url('images/banner2.jpg');">
+        </div>
+
+                <div class="xbanner media-trigger"
+             data-type="image"
+             data-src="images/banner2.jpg"
+             style="background-image:url('images/banner2.jpg');">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 영상 -->
+  <section class="section">
+    <div class="container">
+      <div class="detail-folder-title" style="text-align:center; margin-bottom:10px;">영상</div>
+
+      <div style="display:flex; justify-content:center;">
+        <div class="video-monitor media-trigger"
+             data-type="video"
+             data-src="https://www.youtube.com/embed/영상ID"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP / PHONE -->
+  <section class="section">
+    <div class="container">
+      <div class="phone-row">
+        <div class="phone media-trigger" data-type="image" data-src="images/app1.jpg"></div>
+
+        <div class="phone main media-trigger"
+             data-type="video"
+             data-src="https://www.youtube.com/embed/다른영상ID"></div>
+
+        <div class="phone media-trigger" data-type="image" data-src="images/app2.jpg"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- MODAL -->
+<div class="media-modal" id="mediaModal">
+  <div class="media-modal-backdrop"></div>
+
+  <div class="media-modal-inner">
+    <button class="media-close" id="mediaClose">&times;</button>
+
+    <img id="modalImage" alt="preview">
+
+    <div class="media-video-wrap">
+      <iframe id="modalVideo" src="" frameborder="0"
+        allow="autoplay; encrypted-media; fullscreen"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const triggers = document.querySelectorAll(".media-trigger");
+  const modal = document.getElementById("mediaModal");
+  const modalImg = document.getElementById("modalImage");
+  const modalVideo = document.getElementById("modalVideo");
+  const closeBtn = document.getElementById("mediaClose");
+  const backdrop = document.querySelector(".media-modal-backdrop");
+
+  function closeModal() {
+    modal.classList.remove("show", "image-mode", "video-mode");
+    modalVideo.src = ""; 
+  }
+
+  triggers.forEach((el) => {
+    el.addEventListener("click", () => {
+      const type = el.dataset.type;
+      const src = el.dataset.src;
+
+      if (type === "image") {
+        modal.classList.add("image-mode");
+        modalImg.src = src;
+      }
+      else if (type === "video") {
+        modal.classList.add("video-mode");
+        modalVideo.src = src;
+      }
+      modal.classList.add("show");
+    });
+  });
+
+  closeBtn.addEventListener("click", closeModal);
+  backdrop.addEventListener("click", closeModal);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+});
+</script>
+
+</body>
+</html>
