@@ -182,6 +182,34 @@
       border: 4px solid #666; border-radius: 8px;
       cursor: pointer; position: relative;
     }
+    .video-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;          /* 텍스트/버튼 ↔ 모니터 사이 간격 */
+  margin-top: 30px;
+}
+
+.video-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;          /* "유튜브" ↔ 화살표 버튼 간격 */
+}
+
+.video-label-kor {
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+/* 모바일에서 위아래로 배치되게 하고 싶으면 추가 */
+@media (max-width: 768px) {
+  .video-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
 
     /* PHONE */
     .phone-row { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
@@ -319,7 +347,7 @@
     display: flex;
     justify-content: center;   /* 🔥 두 버튼을 가운데로 */
     gap: 20px;                 /* 버튼 사이 간격 (원하면 줄이거나 늘려도 됨) */
-    margin-top: 40px;          /* 위쪽 여백 */
+    margin-top: 0px;          /* 위쪽 여백 */
     }
 
     .more-icon-btn {
@@ -360,6 +388,56 @@
     margin-top: 0 !important;
     padding-top: 0 !important;
     }
+
+    .more-icon-wrap.xbanner-nav {
+    margin-top: 60px; /* 너 원하는 값 */
+    }
+
+    <style>
+  ... (기존 스타일 전부)
+  
+  /* 🔥 맨 마지막에 영상 섹션용 CSS 추가 */
+  .video-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 30px;
+  }
+
+  .video-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .video-label-kor {
+    font-size: 0.9rem;
+    color: #ffffff;
+  }
+
+  .video-arrows {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .video-row {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+  .footer-mini {
+  padding: 40px 0;
+  text-align: center;
+  color: #666;
+  font-size: 0.75rem;
+  }
+
+</style>
+
       </style>
 </head>
 
@@ -522,35 +600,94 @@
       </div>
 
     </div>
+
+    <div class="more-icon-wrap xbanner-nav">
+    <!-- 왼쪽 화살표 -->
+    <a class="more-icon-btn left-arrow">
+      <div class="triangle"></div>
+    </a>
+
+    <!-- 오른쪽 화살표(기본) -->
+    <a class="more-icon-btn">
+      <div class="triangle"></div>
+    </a>
+    </div>
   </section>
 
-  <!-- 영상 -->
-  <section class="section">
-    <div class="container">
-      <div class="detail-folder-title" style="text-align:center; margin-bottom:10px;">영상</div>
+<!-- 영상 -->
+<section class="section">
+  <div class="container detail-section">
+    <div class="detail-layout">
 
-      <div style="display:flex; justify-content:center;">
+      <!-- 왼쪽 : 제목 + 설명 + 화살표 -->
+      <div class="detail-left">
+        <h3 class="section-title-sub" style="margin-bottom: 4px;">영상</h3>
+        <p class="section-text">
+          유튜브/쇼츠 등 영상 작업들을<br />
+          모아둔 영역입니다. 편집 스타일과<br />
+          연출 감각을 확인할 수 있습니다.
+        </p>
+
+        <div class="more-icon-wrap detail-arrow" style="margin-top: 16px;">
+          <!-- 왼쪽 화살표 -->
+          <a class="more-icon-btn left-arrow media-trigger"
+             data-type="video"
+             data-src="https://www.youtube.com/embed/영상ID">
+            <div class="triangle"></div>
+          </a>
+          <!-- 오른쪽 화살표 -->
+          <a class="more-icon-btn media-trigger"
+             data-type="video"
+             data-src="https://www.youtube.com/embed/영상ID">
+            <div class="triangle"></div>
+          </a>
+        </div>
+      </div>
+
+      <!-- 오른쪽 : 모니터 -->
+      <div class="detail-right">
         <div class="video-monitor media-trigger"
              data-type="video"
-             data-src="https://www.youtube.com/embed/영상ID"></div>
+             data-src="https://www.youtube.com/embed/영상ID">
+        </div>
       </div>
-    </div>
-  </section>
 
-  <!-- APP / PHONE -->
+    </div>
+  </div>
+</section>
+
+
+
+
   <section class="section">
-    <div class="container">
-      <div class="phone-row">
-        <div class="phone media-trigger" data-type="image" data-src="images/app1.jpg"></div>
+  <div class="container">
 
-        <div class="phone main media-trigger"
-             data-type="video"
-             data-src="https://www.youtube.com/embed/다른영상ID"></div>
+    <div class="phone-row">
+      <div class="phone media-trigger" data-type="image" data-src="images/app1.jpg"></div>
 
-        <div class="phone media-trigger" data-type="image" data-src="images/app2.jpg"></div>
-      </div>
+      <div class="phone main media-trigger"
+           data-type="video"
+           data-src="https://www.youtube.com/embed/다른영상ID"></div>
+
+      <div class="phone media-trigger" data-type="image" data-src="images/app2.jpg"></div>
     </div>
-  </section>
+
+    <!-- 🔥 여기 추가: 쇼츠 하단 화살표 -->
+    <div class="more-icon-wrap phone-arrow-set" style="margin-top: 24px;">
+      <!-- 왼쪽 화살표 -->
+      <a class="more-icon-btn left-arrow">
+        <div class="triangle"></div>
+      </a>
+
+      <!-- 오른쪽 화살표 -->
+      <a class="more-icon-btn">
+        <div class="triangle"></div>
+      </a>
+    </div>
+
+  </div>
+</section>
+
 
 </main>
 
@@ -612,4 +749,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 </body>
+
+<footer class="footer-mini">© 2025 GU Portfolio</footer>
+
 </html>
