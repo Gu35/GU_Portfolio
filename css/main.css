@@ -1,26 +1,347 @@
-/* 영상 화살표용 삼각형 재정의 */
-.video-arrow .triangle {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 8px 12px 8px 0;
-  border-color: transparent #fff transparent transparent;
+/* ============================================
+   🔵 포트폴리오 영상 섹션 (영상 + 화살표)
+   ============================================ */
+
+/* 오른쪽 정렬 레이아웃 */
+.portfolio-video-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: relative;
 }
 
-/* 오른쪽 화살표 방향 */
-.video-arrow.next .triangle {
-  border-width: 8px 0 8px 12px;
-  border-color: transparent transparent transparent #fff;
+/* 화살표 박스 */
+.video-arrow-wrap {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
 }
 
-/* 버튼 크기 */
-.more-icon-btn.video-arrow {
-  width: 28px;
-  height: 28px;
+/* 화살표 버튼 공통 스타일 */
+.video-arrow-wrap button,
+.video-nav-prev,
+.video-nav-next {
+  width: 40px;
+  height: 40px;
+  background: #b45dff;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease;
+  padding: 0;
+}
+
+.video-arrow-wrap button:hover,
+.video-nav-prev:hover,
+.video-nav-next:hover {
+  background: #9c3dff;
+  transform: translateY(-2px);
+}
+
+/* 영상 보이기/숨기기 */
+.video-item {
+  display: none;
+  width: 100%;
+  border-radius: 10px;
+}
+.video-item.active {
+  display: block;
+}
+
+/* ============================================
+   🔵 상세페이지 썸네일 + 폴더명 정렬 (최종)
+   ============================================ */
+
+/* 오른쪽 전체를 감싸는 영역 (가운데 배치용) */
+.detail-right {
+  display: flex;
+  flex-direction: column;  /* 큰 3장 위, 폴더블록 아래 */
+  align-items: center;     /* 가운데 정렬 */
+}
+
+/* 썸네일 + 폴더명 묶음 */
+.detail-thumb-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 썸네일 3개 묶음 */
+.detail-thumbs {
   display: flex;
   justify-content: center;
-  align-items: center;
-  background: rgba(255,255,255,0.08);
-  border-radius: 4px;
+  align-items: flex-start;
+  gap: 100px;        /* 🔧 썸네일 간격 */
+  margin: 50px auto 0;
+}
+
+/* 세로 썸네일 카드 (크기 크게) */
+.detail-thumbs .thumb-vertical {
+  width: 180px;      /* 🔧 폭 */
+  height: 360px;     /* 🔧 높이 */
+  border-radius: 10px;
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
   cursor: pointer;
+}
+
+/* 폴더명 글씨 */
+.detail-folder-title {
+  width: 100%;
+  text-align: center;
+  margin-top: 60px;   /* 🔧 썸네일과 간격 */
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ============================
+   상세페이지 썸네일 최종 스타일
+   (파일 맨 아래에 두기)
+   ============================ */
+
+/* 썸네일 묶음: 가운데 정렬 + 간격 */
+.detail-thumbs {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 80px;          /* 썸네일 사이 간격 */
+  margin: 48px auto 0;
+}
+
+/* 세로 썸네일 공통 스타일 (크기는 HTML inline에 있음) */
+.thumb.thumb-vertical {
+  border-radius: 10px;
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+/* 폴더명 텍스트: 썸네일 밑 중앙 정렬 */
+.detail-folder-title {
+  text-align: center;
+  margin-top: 32px;   /* 썸네일과 글씨 사이 간격 */
+  font-size: 20px;
+  font-weight: 600;
+}
+.detail-folder-title {
+  width: 100%;
+  text-align: center;
+  margin-top: 40px;   /* 썸네일과 폴더명 사이 간격 */
+  margin-bottom: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* 🔻 폴더명 텍스트 */
+.detail-folder-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 30px 0 15px;
+  color: #9c3dff; /* 너가 쓰는 포인트 컬러에 맞춰도 돼 */
+}
+
+/* 🔻 3 x 2 그리드 레이아웃 */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 10px;
+}
+
+/* 🔻 공통 썸네일 박스 */
+.thumb {
+  width: 100%;
+  padding-top: 100%;          /* 정사각형 비율 만들기 */
+  border-radius: 14px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #111;     /* 이미지 없을 때 배경색 */
+}
+
+/* 필요하면 사용 – 별도 스타일 주고 싶을 때 */
+.thumb-square {
+  /* 추가 스타일 필요 없으면 비워둬도 됨 */
+}
+body {
+  background: hotpink !important;
+}
+
+/* 폴더명 + 썸네일 묶음 */
+.folder-block {
+  display: block;        /* 인라인처럼 옆에 붙지 말고 한 줄 전체 차지 */
+  width: 100%;           /* 전체 폭 사용 */
+  margin-top: 40px;      /* 상세페이지랑 여백 */
+  text-align: center;    /* 폴더명/썸네일 가운데 정렬 */
+}
+
+
+/* 썸네일 그리드 가운데 정렬 */
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(80px, 1fr));
+  gap: 16px;
+  max-width: 360px;      /* 썸네일 전체 너비 제한 */
+  margin: 0 auto;        /* 가운데 정렬 */
+}
+
+/* 포트폴리오 상세 영역에서는 가로 flex 말고 세로 흐름으로 */
+#portfolio .container.detail-section {
+  display: block;           /* flex로 돼 있으면 강제로 끔 */
+}
+
+/* 폴더 블록 정렬 */
+.folder-block {
+  width: 100%;
+  margin-top: 40px;
+  text-align: center;
+}
+
+/* 폴더명 */
+.folder-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #9c3dff;
+}
+
+/* 3×2 썸네일 그리드 */
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(80px, 1fr));
+  gap: 16px;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.folder-item {
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #111;
+}
+
+/* 두 섹션 사이 간격 조절용 */
+#portfolio-detail {
+  padding-bottom: 60px; /* 상세페이지 끝과 폴더 섹션 사이 간격 */
+}
+
+#portfolio-folder {
+  padding-top: 0; /* 위쪽 패딩은 줄이고 싶으면 0 */
+}
+
+/* 폴더명 + 화살표 묶음 */
+.folder-nav {
+  display: flex;
+  flex-direction: column; /* 폴더명 위 / 화살표 아래 */
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* 폴더명: 상세페이지 글씨랑 비슷하게 */
+.folder-title {
+  font-size: 22px;       /* 상세페이지 섹션의 소제목 크기에 맞춰서 조절 */
+  font-weight: 700;
+  color: #9c3dff;        /* 상세페이지 보라색이랑 같은 색 */
+}
+
+/* 화살표 버튼 */
+.more-icon-wrap {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+
+/* 썸네일 영역 */
+.folder-block {
+  display: flex;
+  justify-content: center;
+}
+
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3×2 배치 */
+  gap: 12px;
+}
+
+.folder-item {
+  width: 120px;          /* 썸네일 키우고 싶으면 여기 숫자 올리면 돼 */
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+}
+
+/* 폴더 전체 영역 가운데 정렬 */
+.folder-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 폴더명: 상세페이지 제목과 동일 스타일 */
+.folder-title {
+  font-size: 32px;        /* 👉 상세페이지 제목 크기랑 똑같이 */
+  font-weight: 700;
+  color: #9c3dff;         /* 👉 상세페이지 보라색 코드 그대로 */
+  text-align: center;
+  margin-bottom: 24px;
+}
+/* 썸네일 묶음 */
+.folder-block {
+  display: flex;
+  justify-content: center;
+}
+
+/* 썸네일 그리드 */
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3×2 배치 */
+  gap: 12px;
+}
+
+/* 썸네일 크기 (지금보다 키우고 싶으면 여기 숫자 올리면 됨) */
+.folder-item {
+  width: 150px;     /* 지금보다 두 배 느낌이면 140~180 정도 추천 */
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+}
+
+/* 화살표: 이미지 아래 간격 + 가운데 정렬 */
+.more-icon-wrap {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* 폴더 섹션 전용 정렬 */
+#portfolio-folder .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* 안에 있는 것들(폴더명, 썸네일, 화살표) 전부 가운데 정렬 */
+}
+
+
+
+
+/* 폴더명 텍스트 사이즈 · 색상 조절 */
+.detail-folder-title {
+  font-size: 36px;      /* 👉 원하는 크기로 숫자만 변경하면 됨 */
+  font-weight: 700;
+  color: #9c3dff;       /* ✔ 네가 지정한 보라색 */
 }
