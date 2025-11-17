@@ -1,0 +1,26 @@
+/* 영상 화살표용 삼각형 재정의 */
+.video-arrow .triangle {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 12px 8px 0;
+  border-color: transparent #fff transparent transparent;
+}
+
+/* 오른쪽 화살표 방향 */
+.video-arrow.next .triangle {
+  border-width: 8px 0 8px 12px;
+  border-color: transparent transparent transparent #fff;
+}
+
+/* 버튼 크기 */
+.more-icon-btn.video-arrow {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  cursor: pointer;
+}
