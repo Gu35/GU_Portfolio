@@ -7,6 +7,7 @@
 
   <!-- 폰트 -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css">
 
   <style>
     :root {
@@ -148,16 +149,30 @@
       .grid-3, .grid-2 { grid-template-columns: 1fr; }
     }
 
-    .thumb {
-      background: var(--placeholder);
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .thumb-vertical { aspect-ratio: 3/4; }
-    .thumb-square { aspect-ratio: 1/1; }
-    .detail-thumbs .thumb-vertical {
-      aspect-ratio: 2 / 5;   /* 또는 9 / 16 처럼 더 길게도 가능 */
-    }
+/* 썸네일 공통 
+.thumb {
+  background: var(--placeholder);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* 상세페이지 썸네일 묶음 정렬 
+.detail-thumbs {
+  display: flex;              /* 가로로 나란히 
+  justify-content: center;  /* 가로로 나란히 
+  gap: 80px;                  /* 썸네일 사이 간격 
+}
+
+/* 상세페이지용 세로 썸네일 
+.detail-thumbs .thumb-vertical {
+  width: 220px;               /* 카드 너비 
+  aspect-ratio: 3 / 6;        /* 길쭉한 비율, 필요하면 숫자 조절 
+  border-radius: 8px;
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+*/
 
     /* X배너 */
     .xbanner-wrap {
@@ -286,9 +301,7 @@
       margin-top: 16px;
     }
 
-    .detail-right {
-      flex: 1;
-    }
+    
 
     .detail-thumbs {
       display: grid;
@@ -302,9 +315,9 @@
       text-align: center;
       margin: 300px 0 80px;
       font-size: 32px; /* 🔥 상세 타이틀 사이즈랑 맞추기 */
-      color: #a259ff; /* 🔥 상세페이지 타이틀 보라색 */
+      color: #b45dff; /* 🔥 상세페이지 타이틀 보라색 */
       font-weight: 700;
-      background: linear-gradient(90deg, #a259ff, #d96bff);
+      background: linear-gradient(90deg, #b45dff, #d96bff);
       -webkit-background-clip: text;
       color: transparent;
       letter-spacing: -0.5px;
@@ -393,8 +406,7 @@
     margin-top: 60px; /* 너 원하는 값 */
     }
 
-    <style>
-  ... (기존 스타일 전부)
+    
   
   /* 🔥 맨 마지막에 영상 섹션용 CSS 추가 */
   .video-row {
@@ -436,9 +448,180 @@
   font-size: 0.75rem;
   }
 
+  /* 프레임 안의 영상 */
+.video-monitor {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+  border: 1px solid #e5e5e5;
+}
+
+.video-item {
+  display: none;
+  width: 100%;
+  height: auto;
+}
+
+.video-item.active {
+  display: block;
+}
+
+/* 화살표 버튼 */
+.video-arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.video-arrow .triangle {
+  border-left: 6px solid #000;
+}
+
+/* 팝업(모달) */
+.video-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+.video-modal-inner {
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+}
+
+#modalVideo {
+  width: 100%;
+  border-radius: 12px;
+  background: #000;
+}
+
+.video-modal-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 32px;
+  cursor: pointer;
+}
+
 </style>
 
       </style>
+
+<style>
+  /* 테스트용 배경은 이제 지워도 됨 */
+  body {
+    background: #000; /* 원래 쓰던 배경색으로 */
+  }
+
+  /* 폴더명 텍스트 */
+  .detail-folder-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 30px 0 15px;
+    color: #b45dff;
+  }
+
+  /* grid 클래스 때문에 깨지는 거 강제 덮어쓰기 */
+  .grid.grid-3 {
+    display: grid !important;              /* 기존 .grid 스타일 무시 */
+    grid-template-columns: repeat(3, 1fr); /* 3열 */
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  /* 썸네일 기본 모양 */
+  .thumb {
+    width: 100%;
+    padding-top: 100%;                     /* 정사각형 비율 */
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #111;
+  }
+
+</style>
+
+<style>
+  /* 폴더명 텍스트 */
+  .detail-folder-title,
+  .detail-folden-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 30px 0 15px;
+    color: #c274ff;
+  }
+
+  /* 이 섹션 안의 grid-3 는 무조건 그리드로 */
+  .detail-right .grid.grid-3 {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  /* 폴더 썸네일 박스 */
+  .detail-right .folder-thumb {
+    width: 100%;
+    padding-top: 100%;           /* 정사각형 */
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #111;
+  }
+</style>
+
+<style>
+  /* 폴더명 아래 3x2 썸네일 레이아웃 */
+  .folder-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(80px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  /* 각각의 썸네일 박스 */
+  .folder-item {
+    width: 100%;
+    padding-top: 100%;          /* 정사각형 비율 */
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #111;
+  }
+
+  .folder-title {
+  font-size: 28px;      /* 상세페이지 제목과 동일하게 */
+  font-weight: 700;     
+  color: #b45dff;       /* 상세페이지 보라색과 동일 */
+  margin-bottom: 20px;
+}
+
+/* 폴더명 텍스트 사이즈 · 색상 조절 */
+.detail-folder-title {
+  font-size: 32px;      /* 👉 원하는 크기로 숫자만 변경하면 됨 */
+  font-weight: 700;
+  color: #9c3dff;       /* ✔ 네가 지정한 보라색 */
+}
+
+</style>
+
+
+
+
+
 </head>
 
 <body>
@@ -509,63 +692,110 @@
           페이지 디자인 작업들을 모아둔 영역입니다.
         </p>
 
-        <div class="more-icon-wrap detail-arrow">
+        <div class="more-icon-wrap detail-arrow" id="detailPrevBtn">
          <a class="more-icon-btn left-arrow">
            <div class="triangle"></div>
          </a>
 
-         <a class="more-icon-btn">
+         <a class="more-icon-btn" id="detailNextBtn">
            <div class="triangle"></div>
          </a>
         </div>
       </div>
 
-      <!-- 오른쪽 썸네일 3개 -->
-      <div class="detail-right">
-        <div class="detail-thumbs">
-          <div class="thumb thumb-vertical media-trigger"
-               data-type="image"
-               data-src="images/detail1.jpg"></div>
+<!-- 오른쪽 썸네일 + 폴더명 -->
+<div class="detail-right">
 
-          <div class="thumb thumb-vertical media-trigger"
-               data-type="image"
-               data-src="images/detail2.jpg"></div>
+  <!-- 썸네일 3개 묶음 -->
+  <div class="detail-thumbs">
 
-          <div class="thumb thumb-vertical media-trigger"
-               data-type="image"
-               data-src="images/detail3.jpg"></div>
-        </div>
+    <!-- 1번째 상세 이미지 -->
+    <div
+      class="thumb thumb-vertical"
+      onclick="window.open('img-view.html?src=images/detail1.png', '_blank'); return false;"
+      data-thumb-index="0"
+      style="
+        width: 180px;
+        height: 360px;
+        border-radius: 10px;
+        background-image: url('images/detail1.png');
+        background-size: cover;
+        background-position: top center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+      ">
+    </div>
+
+    <!-- 2번째 상세 이미지 -->
+    <div
+      class="thumb thumb-vertical"
+      onclick="window.open('img-view.html?src=images/detail2.png', '_blank'); return false;"
+      data-thumb-index="0"
+      style="
+        width: 180px;
+        height: 360px;
+        border-radius: 10px;
+        background-image: url('images/detail2.png');
+        background-size: cover;
+        background-position: top center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+      ">
+    </div>
+
+    <!-- 3번째 상세 이미지 -->
+    <div
+      class="thumb thumb-vertical"
+      onclick="window.open('img-view.html?src=images/detail3.png', '_blank'); return false;"
+      data-thumb-index="0"
+      style="
+        width: 180px;
+        height: 360px;
+        border-radius: 10px;
+        background-image: url('images/detail3.png');
+        background-size: cover;
+        background-position: top center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+      ">
+    </div>
+</section>
+
+<!-- 폴더 / 썸네일 섹션 -->
+<section id="portfolio-folder" class="section">
+  <div class="container">
+    <div class="detail-folder-title">폴더명</div>
+    <!-- 썸네일 그리드 -->
+    <div class="folder-block" style="margin-bottom:40px;">
+      <div class="folder-grid">
+        <div class="folder-item" style="background-image:url('images/s1.png');"></div>
+        <div class="folder-item" style="background-image:url('images/s2.png');"></div>
+        <div class="folder-item" style="background-image:url('images/s3.png');"></div>
+        <div class="folder-item" style="background-image:url('images/s4.png');"></div>
+        <div class="folder-item" style="background-image:url('images/s5.png');"></div>
+        <div class="folder-item" style="background-image:url('images/s6.png');"></div>
       </div>
     </div>
 
-    <!-- 아래 폴더명 + 3x2 그리드 (이건 기존 그대로 놔둬도 됨) -->
-    <div class="detail-folder-title">폴더명</div>
+        <!-- 폴더명 + 화살표 묶음 (상세페이지 밑으로 내려갈 부분) -->
+    <div class="folder-nav">
+      
 
-    <div class="grid grid-3">
-      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s1.jpg"></div>
-      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s2.jpg"></div>
-      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s3.jpg"></div>
-      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s4.jpg"></div>
-      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s5.jpg"></div>
-      <div class="thumb thumb-square media-trigger" data-type="image" data-src="images/s6.jpg"></div>
+      <div class="more-icon-wrap">
+        <a class="more-icon-btn left-arrow">
+          <div class="triangle"></div>
+        </a>
+        <a class="more-icon-btn">
+          <div class="triangle"></div>
+        </a>
+      </div>
     </div>
+
   </div>
-  <div class="grid grid-3">
-  <!-- 이미지 6개 썸네일 -->
-</div>
-
-<div class="more-icon-wrap">
-  <!-- 왼쪽 화살표 -->
-  <a class="more-icon-btn left-arrow">
-    <div class="triangle"></div>
-  </a>
-
-  <!-- 오른쪽 화살표(기본) -->
-  <a class="more-icon-btn">
-    <div class="triangle"></div>
-  </a>
-</div>
 </section>
+
+
+
 
   <!-- X배너 -->
   <section class="section">
@@ -576,8 +806,8 @@
       <div class="xbanner-wrap">
         <div class="xbanner media-trigger"
              data-type="image"
-             data-src="images/banner1.jpg"
-             style="background-image:url('images/banner1.jpg');">
+             data-src="images/banner1.png"
+             style="background-image:url('images/banner1.png');">
         </div>
 
         <div class="xbanner media-trigger"
@@ -588,30 +818,20 @@
 
                 <div class="xbanner media-trigger"
              data-type="image"
-             data-src="images/banner2.jpg"
-             style="background-image:url('images/banner2.jpg');">
+             data-src="images/banner3.jpg"
+             style="background-image:url('images/banner3.jpg');">
         </div>
 
                 <div class="xbanner media-trigger"
              data-type="image"
-             data-src="images/banner2.jpg"
-             style="background-image:url('images/banner2.jpg');">
+             data-src="images/banner4.png"
+             style="background-image:url('images/banner4.png');">
         </div>
       </div>
 
     </div>
 
-    <div class="more-icon-wrap xbanner-nav">
-    <!-- 왼쪽 화살표 -->
-    <a class="more-icon-btn left-arrow">
-      <div class="triangle"></div>
-    </a>
-
-    <!-- 오른쪽 화살표(기본) -->
-    <a class="more-icon-btn">
-      <div class="triangle"></div>
-    </a>
-    </div>
+    
   </section>
 
 <!-- 영상 -->
@@ -619,42 +839,93 @@
   <div class="container detail-section">
     <div class="detail-layout">
 
-      <!-- 왼쪽 : 제목 + 설명 + 화살표 -->
+      <!-- 왼쪽 텍스트 + 화살표 -->
       <div class="detail-left">
         <h3 class="section-title-sub" style="margin-bottom: 4px;">영상</h3>
+
         <p class="section-text">
           유튜브/쇼츠 등 영상 작업들을<br />
           모아둔 영역입니다. 편집 스타일과<br />
           연출 감각을 확인할 수 있습니다.
         </p>
 
-        <div class="more-icon-wrap detail-arrow" style="margin-top: 16px;">
-          <!-- 왼쪽 화살표 -->
-          <a class="more-icon-btn left-arrow media-trigger"
-             data-type="video"
-             data-src="https://www.youtube.com/embed/영상ID">
-            <div class="triangle"></div>
-          </a>
-          <!-- 오른쪽 화살표 -->
-          <a class="more-icon-btn media-trigger"
-             data-type="video"
-             data-src="https://www.youtube.com/embed/영상ID">
-            <div class="triangle"></div>
-          </a>
-        </div>
+          <!-- 글씨 아래 화살표 -->
+  <div class="video-arrow-wrap"
+       style="margin-top: 10px; display: flex; gap: 6px;">
+
+    <button class="video-nav-prev"
+            style="
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              background: #b45dff;
+              border: none;
+              color: #ffffff;
+              font-size: 14px;
+              font-weight: bold;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              padding: 0;
+            ">
+      ◀
+    </button>
+
+    <button class="video-nav-next"
+            style="
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              background: #b45dff;
+              border: none;
+              color: #ffffff;
+              font-size: 14px;
+              font-weight: bold;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              padding: 0;
+            ">
+      ▶
+    </button>
+
+  </div>
+
       </div>
 
-      <!-- 오른쪽 : 모니터 -->
+      <!-- 오른쪽: 모니터 + 영상 -->
       <div class="detail-right">
-        <div class="video-monitor media-trigger"
-             data-type="video"
-             data-src="https://www.youtube.com/embed/영상ID">
+        <div class="video-monitor">
+          <video class="video-item active" src="video01.mp4" controls></video>
+          <video class="video-item" src="video02.mp4" controls></video>
+          <video class="video-item" src="video03.mp4" controls></video>
         </div>
       </div>
 
     </div>
   </div>
 </section>
+
+
+
+
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- 팝업(모달) -->
+<div class="video-modal" id="videoModal">
+  <div class="video-modal-inner">
+    <button class="video-modal-close">&times;</button>
+    <video id="modalVideo" controls></video>
+  </div>
+</div>
 
 
 
@@ -746,6 +1017,199 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.key === "Escape") closeModal();
   });
 });
+</script>
+
+<script>
+const videos = document.querySelectorAll('.video-item');
+const prevBtn = document.querySelector('.video-nav-prev');
+const nextBtn = document.querySelector('.video-nav-next');
+
+let currentIndex = 0;
+
+function showVideo(index) {
+  if (!videos.length) return;
+
+  videos[currentIndex].pause();
+  videos[currentIndex].classList.remove('active');
+
+  currentIndex = (index + videos.length) % videos.length;
+
+  videos[currentIndex].currentTime = 0;
+  videos[currentIndex].classList.add('active');
+}
+
+// 첫 화면 세팅
+showVideo(0);
+
+// 화살표 클릭
+if (prevBtn) {
+  prevBtn.addEventListener('click', () => showVideo(currentIndex - 1));
+}
+if (nextBtn) {
+  nextBtn.addEventListener('click', () => showVideo(currentIndex + 1));
+}
+
+
+// 팝업 관련
+const modal = document.getElementById('videoModal');
+const modalVideo = document.getElementById('modalVideo');
+const modalClose = document.querySelector('.video-modal-close');
+
+// 현재 활성화된 영상 클릭 → 팝업
+videos.forEach(video => {
+  video.addEventListener('click', () => {
+    if (!video.classList.contains('active')) return;
+
+    modal.style.display = 'flex';
+    modalVideo.src = video.currentSrc || video.src;
+    modalVideo.currentTime = 0;
+    modalVideo.play();
+  });
+});
+
+// 닫기 버튼
+modalClose.addEventListener('click', () => {
+  modalVideo.pause();
+  modal.style.display = 'none';
+  modalVideo.src = '';
+});
+
+// 배경 클릭 시 닫기
+modal.addEventListener('click', e => {
+  if (e.target === modal) {
+    modalVideo.pause();
+    modal.style.display = 'none';
+    modalVideo.src = '';
+  }
+});
+</script>
+
+<script>
+  const videos = document.querySelectorAll('.video-item');
+  let currentIndex = 0;
+
+  const prevBtn = document.querySelector('.video-nav-prev');
+  const nextBtn = document.querySelector('.video-nav-next');
+
+  function showVideo(i) {
+    videos.forEach(v => v.classList.remove('active'));
+    videos[i].classList.add('active');
+  }
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + videos.length) % videos.length;
+    showVideo(currentIndex);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % videos.length;
+    showVideo(currentIndex);
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const videos = document.querySelectorAll('.video-item');
+    const prevBtn = document.querySelector('.video-nav-prev');
+    const nextBtn = document.querySelector('.video-nav-next');
+
+    let currentIndex = 0;
+
+    function showVideo(index) {
+      if (!videos.length) return;
+
+      videos[currentIndex].pause();
+      videos[currentIndex].classList.remove('active');
+
+      currentIndex = (index + videos.length) % videos.length;
+
+      videos[currentIndex].currentTime = 0;
+      videos[currentIndex].classList.add('active');
+    }
+
+    // 첫 화면
+    showVideo(0);
+
+    // 화살표 클릭
+    if (prevBtn) prevBtn.addEventListener('click', () => showVideo(currentIndex - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => showVideo(currentIndex + 1));
+  });
+
+const mediaTriggers = document.querySelectorAll('.media-trigger');
+
+mediaTriggers.forEach(trigger => {
+  trigger.addEventListener('click', function () {
+    const type = this.dataset.type;
+    const src = this.dataset.src;
+
+    // 새 탭으로 크게 보기
+    if (type === 'image-page') {
+      const url = `img-view.html?img=${encodeURIComponent(src)}`;
+      window.open(url, "_blank");
+      return;
+    }
+
+    // 기존 비디오/이미지 모달 로직
+    if (type === 'video') {
+      // ... 기존 코드
+    } else if (type === 'image') {
+      // ... 기존 코드
+    }
+  });
+});
+document.querySelectorAll('.thumb').forEach(item => {
+  const src = item.dataset.src;
+  if (src) item.style.backgroundImage = `url(${src})`;
+});
+  
+</script>
+
+<script>
+  const detailImageSets = [
+    ['images/detail1.png', 'images/detail2.png', 'images/detail3.png'],
+    ['images/detail4.png', 'images/detail5.png', 'images/detail6.png'],
+  ];
+
+  let currentDetailPage = 0;
+
+  const thumbEls = document.querySelectorAll('.detail-thumbs .thumb');
+  const prevBtn = document.getElementById('detailPrevBtn');
+  const nextBtn = document.getElementById('detailNextBtn');
+
+  function renderDetailThumbs() {
+    const set = detailImageSets[currentDetailPage];
+
+    thumbEls.forEach((thumb, index) => {
+      const imgSrc = set[index];
+
+      if (!imgSrc) {
+        thumb.style.display = 'none';
+        return;
+      }
+
+      thumb.style.display = 'block';
+      thumb.style.backgroundImage = `url('${imgSrc}')`;
+      thumb.onclick = () => {
+        window.open('img-view.html?src=' + encodeURIComponent(imgSrc), '_blank');
+      };
+    });
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (currentDetailPage < detailImageSets.length - 1) {
+      currentDetailPage++;
+      renderDetailThumbs();
+    }
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (currentDetailPage > 0) {
+      currentDetailPage--;
+      renderDetailThumbs();
+    }
+  });
+
+  renderDetailThumbs();
 </script>
 
 </body>
