@@ -286,7 +286,7 @@
 
     .detail-layout {
       display: flex;
-      gap: 40px;
+      gap: 300px;
       align-items: center;
       margin-bottom: 40px;
     }
@@ -615,7 +615,174 @@
   font-weight: 700;
   color: #9c3dff;       /* ✔ 네가 지정한 보라색 */
 }
+/* =========================
+   상세페이지 슬라이더용 스타일
+   ========================= */
+.detail-right .detail-item {
+  display: none;              /* 기본은 안 보이게 */
+}
 
+.detail-right .detail-item.active {
+  display: flex;              /* 보이는 슬라이드만 flex로 표시 */
+  flex-direction: column;     /* 폴더명 위, 썸네일 아래로 세로 배치 */
+  align-items: center;        /* 가운데 정렬 (원하면 left로 바꿔도 됨) */
+  gap: 12px;                  /* 폴더명이랑 썸네일 사이 간격 */
+}
+
+/* 썸네일 3개 가로로 나열 */
+.detail-right .detail-thumbs {
+  display: flex;
+  gap: 16px;                  /* 썸네일 사이 간격 */
+  justify-content: center;    /* 가운데 정렬 */
+}
+
+.detail-right .detail-item {
+  display: none !important;
+}
+
+.detail-right .detail-item.active {
+  display: flex !important;
+}
+/* 폴더 슬라이더 */
+.folder-slide {
+  display: none;
+}
+
+.folder-slide.active {
+  display: block;
+}
+.img-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.img-modal.show {
+  display: flex;
+}
+.img-modal-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 10px;
+}
+.img-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 32px;
+  color: #fff;
+  cursor: pointer;
+}
+/* 폴더 슬라이더: 한 번에 하나만 보이게 */
+.folder-slide {
+  display: none;
+}
+
+.folder-slide.active {
+  display: block;
+}
+
+/* 폴더 썸네일 그리드 (이미 있으면 패스해도 됨) */
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 x 2 */
+  gap: 16px;
+}
+
+.folder-item {
+  width: 100%;
+  padding-top: 140%; /* 세로 비율 */
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* 이미지 모달 */
+.img-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.img-modal.show {
+  display: flex;
+}
+
+.img-modal-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 10px;
+}
+
+.img-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 32px;
+  color: #fff;
+  cursor: pointer;
+}
+
+#portfolio-folder .folder-slide {
+  display: none !important;
+}
+
+#portfolio-folder .folder-slide.active {
+  display: block !important;
+}
+
+/* 세로형 쇼츠 영상 슬라이더 */
+#shorts-section .shorts-slide {
+  display: none;
+}
+
+#shorts-section .shorts-slide.active {
+  display: block;
+}
+
+/* 세로형 영상 3개 그리드 */
+.shorts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0px;
+}
+
+.shorts-item {
+  display: flex;
+  justify-content: center;
+}
+
+.shorts-item video {
+  width: 200px;        /* 여기 숫자로 크기 조절 (예: 200, 180 등) */
+  max-width: 100%;     /* 화면 작을 때는 줄어들게 */
+  aspect-ratio: 9 / 16;
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+}
+/* 쇼츠 카드 가로 간격 줄이기 */
+.shorts-row {
+  display: flex;              /* 이미 flex면 그대로 둬도 됨 */
+  justify-content: center;    /* space-between이면 반드시 center로! */
+  gap: 16px;                  /* 좌우 간격, 더 붙이고 싶으면 8px, 완전 붙이면 0 */
+}
+
+/* 쇼츠 3개 가로 간격 줄이기 */
+#shorts-section .shorts-grid {
+  display: flex;              /* 그리드였어도 flex로 강제 */
+  justify-content: center;    /* 양끝 벌어지지 말고 가운데 모이게 */
+  gap: 32px;                  /* 카드 사이 간격. 더 붙이고 싶으면 8px, 완전 붙이면 0 */
+  max-width: 720px;           /* 전체 묶음 폭 줄이기 (양옆 여백 줄이는 효과) */
+  margin: 0 auto;
+}
 </style>
 
 
@@ -664,19 +831,18 @@
   <!-- CONTENT -->
   <section class="section" id="about">
     <div class="container">
-      <div class="label-kor">내용</div>
-      <p>여기에 자기소개 문구 넣기.</p>
-      <p>작업 스타일, 방향성 등 설명 부분.</p>
-      <p>더미텍스트는 나중에 네가 바꾸면 됨.</p>
+      <div class="label-kor">안녕하세요, GU입니다.</div>
+      <p>병원 마케팅 중심으로 영상 편집, 디자인, 웹 제작을 하고 있어요.</p>
+      <p>깔끔하게 정리된 화면과 이해하기 쉬운 흐름을 좋아하고,</p>
+      <p>목적이 명확히 보이는 콘텐츠를 만드는 데 집중합니다.</p>
     </div>
   </section>
 
   <!-- TITLE SECTION -->
   <section class="section">
     <div class="container">
-      <h2 class="section-title-main">타이틀 타이틀</h2>
-      <h3 class="section-title-sub">타이틀 타이틀</h3>
-      <p class="section-text">여기에 포트폴리오 콘셉트 요약 넣기.</p>
+      <h2 class="section-title-main">GU’s Work</h2>
+      <p class="section-text">가볍게 보고 편하게 이해되는 작업을 합니다.</p>
     </div>
   </section>
 
@@ -684,6 +850,7 @@
 <section class="section" id="portfolio">
   <div class="container detail-section">
     <div class="detail-layout">
+      
       <!-- 왼쪽 텍스트 영역 -->
       <div class="detail-left">
         <h3 class="section-title-sub" style="margin-bottom: 4px;">상세페이지</h3>
@@ -692,100 +859,203 @@
           페이지 디자인 작업들을 모아둔 영역입니다.
         </p>
 
-        <div class="more-icon-wrap detail-arrow" id="detailPrevBtn">
-         <a class="more-icon-btn left-arrow">
-           <div class="triangle"></div>
-         </a>
+<div class="more-icon-wrap detail-arrow">
+  <!-- 이전(왼쪽) -->
+  <a class="more-icon-btn left-arrow" id="detailPrev">
+    <div class="triangle"></div>
+  </a>
 
-         <a class="more-icon-btn" id="detailNextBtn">
-           <div class="triangle"></div>
-         </a>
-        </div>
+  <!-- 다음(오른쪽) -->
+  <a class="more-icon-btn right-arrow" id="detailNext">
+    <div class="triangle"></div>
+  </a>
+</div>
       </div>
 
-<!-- 오른쪽 썸네일 + 폴더명 -->
-<div class="detail-right">
+      <!-- 오른쪽 썸네일 + 폴더명 -->
+      <div class="detail-right">
 
-  <!-- 썸네일 3개 묶음 -->
-  <div class="detail-thumbs">
+        <!-- ✅ 슬라이드 1번 -->
+        <div class="detail-item active">
+          <div class="detail-folder-name"></div>
 
-    <!-- 1번째 상세 이미지 -->
-    <div
-      class="thumb thumb-vertical"
-      onclick="window.open('img-view.html?src=images/detail1.png', '_blank'); return false;"
-      data-thumb-index="0"
-      style="
-        width: 180px;
-        height: 360px;
-        border-radius: 10px;
-        background-image: url('images/detail1.png');
-        background-size: cover;
-        background-position: top center;
-        background-repeat: no-repeat;
-        cursor: pointer;
-      ">
-    </div>
+          <div class="detail-thumbs">
+            <div
+              class="thumb thumb-vertical"
+              onclick="window.open('img-view.html?src=images/detail1.png', '_blank'); return false;"
+              style="
+                width: 180px;
+                height: 360px;
+                border-radius: 10px;
+                background-image: url('images/detail1.png');
+                background-size: cover;
+                background-position: top center;
+                background-repeat: no-repeat;
+                cursor: pointer;
+              ">
+            </div>
 
-    <!-- 2번째 상세 이미지 -->
-    <div
-      class="thumb thumb-vertical"
-      onclick="window.open('img-view.html?src=images/detail2.png', '_blank'); return false;"
-      data-thumb-index="0"
-      style="
-        width: 180px;
-        height: 360px;
-        border-radius: 10px;
-        background-image: url('images/detail2.png');
-        background-size: cover;
-        background-position: top center;
-        background-repeat: no-repeat;
-        cursor: pointer;
-      ">
-    </div>
+            <div
+              class="thumb thumb-vertical"
+              onclick="window.open('img-view.html?src=images/detail2.png', '_blank'); return false;"
+              style="
+                width: 180px;
+                height: 360px;
+                border-radius: 10px;
+                background-image: url('images/detail2.png');
+                background-size: cover;
+                background-position: top center;
+                background-repeat: no-repeat;
+                cursor: pointer;
+              ">
+            </div>
 
-    <!-- 3번째 상세 이미지 -->
-    <div
-      class="thumb thumb-vertical"
-      onclick="window.open('img-view.html?src=images/detail3.png', '_blank'); return false;"
-      data-thumb-index="0"
-      style="
-        width: 180px;
-        height: 360px;
-        border-radius: 10px;
-        background-image: url('images/detail3.png');
-        background-size: cover;
-        background-position: top center;
-        background-repeat: no-repeat;
-        cursor: pointer;
-      ">
-    </div>
+            <div
+              class="thumb thumb-vertical"
+              onclick="window.open('img-view.html?src=images/detail3.png', '_blank'); return false;"
+              style="
+                width: 180px;
+                height: 360px;
+                border-radius: 10px;
+                background-image: url('images/detail3.png');
+                background-size: cover;
+                background-position: top center;
+                background-repeat: no-repeat;
+                cursor: pointer;
+              ">
+            </div>
+          </div>
+        </div>
+
+        <!-- ✅ 슬라이드 2번 (테스트용으로 같은 이미지 써도 됨) -->
+        <div class="detail-item">
+          <div class="detail-folder-name"></div>
+
+          <div class="detail-thumbs">
+            <div
+              class="thumb thumb-vertical"
+              onclick="window.open('img-view.html?src=images/detail4.png', '_blank'); return false;"
+              style="
+                width: 180px;
+                height: 360px;
+                border-radius: 10px;
+                background-image: url('images/detail4.png');
+                background-size: cover;
+                background-position: top center;
+                background-repeat: no-repeat;
+                cursor: pointer;
+              ">
+            </div>
+
+            <div
+              class="thumb thumb-vertical"
+              onclick="window.open('img-view.html?src=images/detail5.png', '_blank'); return false;"
+              style="
+                width: 180px;
+                height: 360px;
+                border-radius: 10px;
+                background-image: url('images/detail5.png');
+                background-size: cover;
+                background-position: top center;
+                background-repeat: no-repeat;
+                cursor: pointer;
+              ">
+            </div>
+
+            <div
+              class="thumb thumb-vertical"
+              onclick="window.open('img-view.html?src=images/detail6.png', '_blank'); return false;"
+              style="
+                width: 180px;
+                height: 360px;
+                border-radius: 10px;
+                background-image: url('images/detail6.png');
+                background-size: cover;
+                background-position: top center;
+                background-repeat: no-repeat;
+                cursor: pointer;
+              ">
+            </div>
+          </div>
+        </div>
+
+      </div><!-- .detail-right 끝 -->
+
+    </div><!-- .detail-layout 끝 -->
+  </div><!-- .container 끝 -->
 </section>
+
+
 
 <!-- 폴더 / 썸네일 섹션 -->
 <section id="portfolio-folder" class="section">
   <div class="container">
-    <div class="detail-folder-title">폴더명</div>
-    <!-- 썸네일 그리드 -->
-    <div class="folder-block" style="margin-bottom:40px;">
-      <div class="folder-grid">
-        <div class="folder-item" style="background-image:url('images/s1.png');"></div>
-        <div class="folder-item" style="background-image:url('images/s2.png');"></div>
-        <div class="folder-item" style="background-image:url('images/s3.png');"></div>
-        <div class="folder-item" style="background-image:url('images/s4.png');"></div>
-        <div class="folder-item" style="background-image:url('images/s5.png');"></div>
-        <div class="folder-item" style="background-image:url('images/s6.png');"></div>
+
+    <!-- 폴더 슬라이더 전체 -->
+    <div class="folder-slider">
+
+      <!-- ✅ 슬라이드 1 -->
+      <div class="folder-slide active">
+        <div class="detail-folder-title">원내 홍보물</div>
+        <div class="folder-block" style="margin-bottom:40px;">
+          <div class="folder-grid">
+            <div class="folder-item" data-img="images/s1.png" style="background-image:url('images/s1.png');"></div>
+            <div class="folder-item" data-img="images/s2.png" style="background-image:url('images/s2.png');"></div>
+            <div class="folder-item" data-img="images/s3.png" style="background-image:url('images/s3.png');"></div>
+            <div class="folder-item" data-img="images/s4.png" style="background-image:url('images/s4.png');"></div>
+            <div class="folder-item" data-img="images/s5.png" style="background-image:url('images/s5.png');"></div>
+            <div class="folder-item" data-img="images/s6.png" style="background-image:url('images/s6.png');"></div>
+          </div>
+        </div>
       </div>
-    </div>
 
-        <!-- 폴더명 + 화살표 묶음 (상세페이지 밑으로 내려갈 부분) -->
+      <!-- ✅ 슬라이드 2 (나중에 다른 폴더 추가하고 싶으면 여기 수정) -->
+      <div class="folder-slide">
+        <div class="detail-folder-title">홍보물</div>
+        <div class="folder-block" style="margin-bottom:40px;">
+          <div class="folder-grid">
+            <!-- 필요하면 다른 썸네일 6개로 교체 -->
+            <div class="folder-item" data-img="images/s1.png" style="background-image:url('images/s7.png');"></div>
+            <div class="folder-item" data-img="images/s2.png" style="background-image:url('images/s8.png');"></div>
+            <div class="folder-item" data-img="images/s3.png" style="background-image:url('images/s9.png');"></div>
+            <div class="folder-item" data-img="images/s4.png" style="background-image:url('images/s10.png');"></div>
+            <div class="folder-item" data-img="images/s5.png" style="background-image:url('images/s11.png');"></div>
+            <div class="folder-item" data-img="images/s6.png" style="background-image:url('images/s12.png');"></div>
+          </div>
+        </div>
+      </div>
+
+            <!-- ✅ 슬라이드 2 (나중에 다른 폴더 추가하고 싶으면 여기 수정) -->
+      <div class="folder-slide">
+        <div class="detail-folder-title">원내 홍보물</div>
+        <div class="folder-block" style="margin-bottom:40px;">
+          <div class="folder-grid">
+            <!-- 필요하면 다른 썸네일 6개로 교체 -->
+            <div class="folder-item" data-img="images/s1.png" style="background-image:url('images/s13.png');"></div>
+            <div class="folder-item" data-img="images/s2.png" style="background-image:url('images/s14.png');"></div>
+            <div class="folder-item" data-img="images/s3.png" style="background-image:url('images/s15.jpg');"></div>
+            <div class="folder-item" data-img="images/s4.png" style="background-image:url('images/s16.png');"></div>
+            <div class="folder-item" data-img="images/s5.png" style="background-image:url('images/s17.jpg');"></div>
+            <div class="folder-item" data-img="images/s6.png" style="background-image:url('images/s18.png');"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .folder-slider 끝 -->
+
+    <!-- 이미지 팝업 모달 -->
+<div id="imageModal" class="img-modal">
+  <span class="img-modal-close">&times;</span>
+  <img class="img-modal-content" id="imgModalImg" alt="">
+</div>
+
+    <!-- 폴더 화살표 -->
     <div class="folder-nav">
-      
-
       <div class="more-icon-wrap">
-        <a class="more-icon-btn left-arrow">
+        <a class="more-icon-btn left-arrow" id="folderPrev">
           <div class="triangle"></div>
         </a>
-        <a class="more-icon-btn">
+        <a class="more-icon-btn right-arrow" id="folderNext">
           <div class="triangle"></div>
         </a>
       </div>
@@ -793,6 +1063,7 @@
 
   </div>
 </section>
+
 
 
 
@@ -898,9 +1169,9 @@
       <!-- 오른쪽: 모니터 + 영상 -->
       <div class="detail-right">
         <div class="video-monitor">
-          <video class="video-item active" src="video01.mp4" controls></video>
-          <video class="video-item" src="video02.mp4" controls></video>
-          <video class="video-item" src="video03.mp4" controls></video>
+          <video class="video-item active" src="videos/video01.mp4" controls></video>
+          <video class="video-item" src="videos/video02.mp4" controls></video>
+          <video class="video-item" src="videos/video03.mp4" controls></video>
         </div>
       </div>
 
@@ -930,34 +1201,66 @@
 
 
 
-  <section class="section">
+<!-- 세로형 쇼츠 영상 섹션 -->
+<section id="shorts-section" class="section">
   <div class="container">
 
-    <div class="phone-row">
-      <div class="phone media-trigger" data-type="image" data-src="images/app1.jpg"></div>
+    <!-- 제목 -->
+    <div class="detail-folder-title" style="margin-bottom: 16px;">쇼츠</div>
 
-      <div class="phone main media-trigger"
-           data-type="video"
-           data-src="https://www.youtube.com/embed/다른영상ID"></div>
+    <!-- 세로형 영상 슬라이더 전체 -->
+    <div class="shorts-slider">
 
-      <div class="phone media-trigger" data-type="image" data-src="images/app2.jpg"></div>
-    </div>
+      <!-- ✅ 슬라이드 1 -->
+      <div class="shorts-slide active">
+        <div class="shorts-grid">
+          <!-- 1번 세로 영상 -->
+          <div class="shorts-item">
+            <video src="videos/shorts01.mp4" controls muted playsinline></video>
+          </div>
+          <!-- 2번 세로 영상 -->
+          <div class="shorts-item">
+            <video src="videos/shorts02.mp4" controls muted playsinline></video>
+          </div>
+          <!-- 3번 세로 영상 -->
+          <div class="shorts-item">
+            <video src="videos/shorts03.mp4" controls muted playsinline></video>
+          </div>
+        </div>
+      </div>
 
-    <!-- 🔥 여기 추가: 쇼츠 하단 화살표 -->
-    <div class="more-icon-wrap phone-arrow-set" style="margin-top: 24px;">
-      <!-- 왼쪽 화살표 -->
-      <a class="more-icon-btn left-arrow">
-        <div class="triangle"></div>
-      </a>
+      <!-- ✅ 슬라이드 2 (필요 없으면 삭제해도 됨) -->
+      <div class="shorts-slide">
+        <div class="shorts-grid">
+          <div class="shorts-item">
+            <video src="videos/shorts04.mp4" controls muted playsinline></video>
+          </div>
+          <div class="shorts-item">
+            <video src="videos/shorts05.mp4" controls muted playsinline></video>
+          </div>
+          <div class="shorts-item">
+            <video src="videos/shorts06.mp4" controls muted playsinline></video>
+          </div>
+        </div>
+      </div>
 
-      <!-- 오른쪽 화살표 -->
-      <a class="more-icon-btn">
-        <div class="triangle"></div>
-      </a>
+    </div><!-- .shorts-slider 끝 -->
+
+    <!-- 세로형 영상 화살표 (3개 박스 아래) -->
+    <div class="shorts-nav" style="margin-top: 16px; text-align:center;">
+      <div class="more-icon-wrap">
+        <a class="more-icon-btn left-arrow" id="shortsPrev">
+          <div class="triangle"></div>
+        </a>
+        <a class="more-icon-btn right-arrow" id="shortsNext">
+          <div class="triangle"></div>
+        </a>
+      </div>
     </div>
 
   </div>
 </section>
+
 
 
 </main>
@@ -1210,6 +1513,152 @@ document.querySelectorAll('.thumb').forEach(item => {
   });
 
   renderDetailThumbs();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const videos = document.querySelectorAll(".video-item");
+  const prev = document.querySelector(".video-nav-prev");
+  const next = document.querySelector(".video-nav-next");
+
+  let index = 0; // 첫 번째 영상부터 시작
+
+  function showVideo(newIndex) {
+    // 이전 영상 숨기고 정지
+    videos[index].pause();
+    videos[index].classList.remove("active");
+
+    // 새 인덱스 (순환)
+    index = (newIndex + videos.length) % videos.length;
+
+    // 새 영상 보이기
+    videos[index].classList.add("active");
+    videos[index].currentTime = 0;
+    videos[index].play();
+  }
+
+  prev.addEventListener("click", () => showVideo(index - 1));
+  next.addEventListener("click", () => showVideo(index + 1));
+});
+</script>
+<script>
+  // 상세페이지 슬라이더
+  const detailItems = document.querySelectorAll('.detail-right .detail-item');
+  const detailPrev = document.getElementById('detailPrev');
+  const detailNext = document.getElementById('detailNext');
+
+  let detailIndex = 0;
+
+  function showDetailSlide(index) {
+    detailItems.forEach((item, i) => {
+      item.classList.toggle('active', i === index);
+    });
+  }
+
+  if (detailItems.length > 0 && detailPrev && detailNext) {
+    detailPrev.addEventListener('click', function (e) {
+      e.preventDefault();
+      detailIndex = (detailIndex - 1 + detailItems.length) % detailItems.length;
+      showDetailSlide(detailIndex);
+    });
+
+    detailNext.addEventListener('click', function (e) {
+      e.preventDefault();
+      detailIndex = (detailIndex + 1) % detailItems.length;
+      showDetailSlide(detailIndex);
+    });
+  }
+
+  
+</script>
+
+<script>
+  // ==========
+  // 폴더 슬라이더
+  // ==========
+  const folderSlides = document.querySelectorAll('.folder-slider .folder-slide');
+  const folderPrev = document.getElementById('folderPrev');
+  const folderNext = document.getElementById('folderNext');
+  let folderIndex = 0;
+
+  function showFolderSlide(index) {
+    folderSlides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+    });
+  }
+
+  if (folderSlides.length > 0 && folderPrev && folderNext) {
+    folderPrev.addEventListener('click', function (e) {
+      e.preventDefault();
+      folderIndex = (folderIndex - 1 + folderSlides.length) % folderSlides.length;
+      showFolderSlide(folderIndex);
+    });
+
+    folderNext.addEventListener('click', function (e) {
+      e.preventDefault();
+      folderIndex = (folderIndex + 1) % folderSlides.length;
+      showFolderSlide(folderIndex);
+    });
+  }
+
+  // ==========
+  // 폴더 썸네일 팝업
+  // ==========
+  const folderItems = document.querySelectorAll('.folder-item');
+  const imgModal = document.getElementById('imageModal');
+  const imgModalImg = document.getElementById('imgModalImg');
+  const imgModalClose = document.querySelector('.img-modal-close');
+
+  folderItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const url = item.getAttribute('data-img');
+      imgModalImg.src = url;
+      imgModal.classList.add('show');
+    });
+  });
+
+  imgModalClose.addEventListener('click', () => {
+    imgModal.classList.remove('show');
+  });
+
+  imgModal.addEventListener('click', (e) => {
+    if (e.target === imgModal) {
+      imgModal.classList.remove('show');
+    }
+  });
+</script>
+
+<script>
+  // ======================
+  // 세로형 쇼츠 영상 슬라이더
+  // ======================
+  const shortsSlides = document.querySelectorAll('.shorts-slider .shorts-slide');
+  const shortsPrev = document.getElementById('shortsPrev');
+  const shortsNext = document.getElementById('shortsNext');
+  let shortsIndex = 0;
+
+  function showShortsSlide(index) {
+    shortsSlides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+    });
+  }
+
+  if (shortsSlides.length > 0) {
+    showShortsSlide(0);
+  }
+
+  if (shortsSlides.length > 0 && shortsPrev && shortsNext) {
+    shortsPrev.addEventListener('click', function (e) {
+      e.preventDefault();
+      shortsIndex = (shortsIndex - 1 + shortsSlides.length) % shortsSlides.length;
+      showShortsSlide(shortsIndex);
+    });
+
+    shortsNext.addEventListener('click', function (e) {
+      e.preventDefault();
+      shortsIndex = (shortsIndex + 1) % shortsSlides.length;
+      showShortsSlide(shortsIndex);
+    });
+  }
 </script>
 
 </body>

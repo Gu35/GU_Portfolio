@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>상세 이미지 보기</title>
+
+  <style>
+  body {
+    margin: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;   /* 가운데 정렬은 유지 */
+    align-items: flex-start;   /* ⬅ 상단부터 시작 */
+    min-height: 100vh;
+    padding-top: 40px;         /* 상단 여백 */
+  }
+
+  .viewer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .viewer img {
+    max-width: min(1200px, 95vw);  /* 너무 크게 안 키움 */
+    height: auto;                  /* 비율 유지 */
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.25);
+    display: block;
+  }
+
+  .close-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #b45dff;
+    color: #fff;
+    border: none;
+    width: 55px;         /* 버튼 자체 크기 */
+    height: 55px;
+    font-size: 32px;     /* X 글씨 더 크게 */
+    border-radius: 50%;  /* 동그랗게 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(0,0,0,0.35);
+  }
+  .close-btn:hover {
+    background: #9c3dff;
+  }
+  
+  </style>
+
+</head>
+<body>
+  <button class="close-btn" onclick="window.close()">×</button>
+
+  <div class="viewer">
+    <!-- 기본값으로 detail1.png를 잡아두고, 쿼리가 있으면 그걸로 교체 -->
+    <img id="detailImage" src="images/detail1.png" alt="Detail Image" />
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const src = params.get("src");
+
+    if (src) {
+      // 쿼리로 넘어온 src가 있으면 그걸로 교체
+      document.getElementById("detailImage").src = src;
+    }
+  </script>
+</body>
+</html>
