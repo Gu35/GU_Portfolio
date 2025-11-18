@@ -336,12 +336,15 @@ body {
   align-items: center;   /* 안에 있는 것들(폴더명, 썸네일, 화살표) 전부 가운데 정렬 */
 }
 
-
-
-
-/* 폴더명 텍스트 사이즈 · 색상 조절 */
-.detail-folder-title {
-  font-size: 36px;      /* 👉 원하는 크기로 숫자만 변경하면 됨 */
-  font-weight: 700;
-  color: #9c3dff;       /* ✔ 네가 지정한 보라색 */
+.video-item {
+  display: none;
+  width: 100%;
 }
+
+.video-item.active {
+  display: block;
+}
+
+
+
+
